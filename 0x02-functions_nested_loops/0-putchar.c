@@ -6,10 +6,6 @@
  *
  * Return: Always 0 (Success)
  */
- *Return: 0
- *
- **/
-
 int main(void)
 {
 	int a = 0;
@@ -24,4 +20,5 @@ int main(void)
 	a++;
 	}
 	_putchar('\n');
-	return (0); 
+	return (0);
+}	
