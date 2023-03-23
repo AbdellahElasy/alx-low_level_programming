@@ -10,7 +10,7 @@
 int main(void)
 {
 int a = 0;
-char str[] = "_putchar";
+char str[]="_putchar";
 
 while (str[a] >= a)
 {
