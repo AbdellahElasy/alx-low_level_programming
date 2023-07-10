@@ -1,37 +1,36 @@
 #include "main.h"
 
 /**
- * read_textfile - reads a text file and prints the letters
- * @filename: the name of the file to read from
- * @letters: the number of letters to print
+ * create_file - creates a new file and writes text content to it
+ * @filename: name of the file to create
+ * @text_content: content to write to the file
  *
- * Return: the number of letters printed, or 0 on failure
+ * Return: 1 on success, -1 on failure
  */
-ssize_t read_textfile(const char *filename, size_t letters)
+int create_file(const char *filename, char *text_content)
 {
-	int file_descriptor;
-	ssize_t bytes_read, bytes_written;
-	char *buffer;
+	int file_desc, n_letters, result;
 
-	if (filename == NULL)
-		return (0);
+	if (!filename)
+		return (-1);
 
-	file_descriptor = open(filename, O_RDONLY);
-	if (file_descriptor == -1)
-		return (0);
+	file_desc = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
 
-	buffer = malloc(sizeof(char) * letters);
-	if (buffer == NULL)
-		return (0);
+	if (file_desc == -1)
+		return (-1);
 
-	bytes_read = read(file_descriptor, buffer, letters);
-	bytes_written = write(STDOUT_FILENO, buffer, bytes_read);
+	if (!text_content)
+		text_content = "";
 
-	close(file_descriptor);
-	free(buffer);
+	for (n_letters = 0; text_content[n_letters]; n_letters++)
+		;
 
-	if (bytes_written != bytes_read)
-		return (0);
+	result = write(file_desc, text_content, n_letters);
 
-	return (bytes_written);
+	if (result == -1)
+		return (-1);
+
+	close(file_desc);
+
+	return (1);
 }
